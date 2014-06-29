@@ -1,0 +1,4 @@
+# Immediately Invoking Function Expression
+'IIFE':
+  'prefix': 'iife'
+  'body': '(function() { \n ${1} \n }());'
