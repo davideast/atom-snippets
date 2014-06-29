@@ -2,7 +2,9 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     argv = require('yargs').argv;
 
-var snippets = {
+// TODO:
+//  - Better pattern for specifying snippet paths
+var paths = {
 
   // name of built file
   name: 'snippets.cson',
@@ -10,11 +12,13 @@ var snippets = {
   // directory to build to
   build: 'build/',
 
-  // file paths to languages
-  lang: {
+  // file snippets to languages
+  snippet: {
 
     all: ['snippets/**/*.cson'],
     javascript: ['snippets/javascript/**/*.cson'],
+    angular: ['snippets/angular/**/*.cson'],
+    "firebase-js": ['snippets/firebase-js/**/*.cson'],
     markdown: ['snippets/markdown/**/*.cson']
 
   }
@@ -26,20 +30,22 @@ function combinePaths(args) {
   console.log(args);
 }
 
-
-// Task: lang
-// Args: --lang <language name>
+//TODO: Better agrument name than snippet
 //
+// Task: snippet
+// Args: --snippet <language name>
+// Ex: gulp snippet --snippet javascript,angular,backbone
+// 
 // Desc: The following gulp task uses yargs to take the
-// --lang argument from the command line. The --lang
+// --snippet argument from the command line. The --snippet
 // argument will specify what language to build the
 // files to.
-gulp.task('lang', function() {
-  combinePaths(argv.lang);
-  return gulp.src(snippets.lang[argv.lang])
-    .pipe(concat(snippets.name))
-    .pipe(gulp.dest(snippets.build));
+gulp.task('snippet', function() {
+  combinePaths(argv.snippet);
+  return gulp.src(paths.snippet[argv.snippet])
+    .pipe(concat(paths.name))
+    .pipe(gulp.dest(paths.build));
 });
 
 
-gulp.task('default', ['lang']);
+gulp.task('default', ['snippet']);
