@@ -2,8 +2,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     argv = require('yargs').argv;
 
-// TODO:
-//  - Better pattern for specifying snippet paths
+// path info for building
 var paths = {
 
   // name of built file
@@ -12,40 +11,44 @@ var paths = {
   // directory to build to
   build: 'build/',
 
-  // file snippets to languages
-  snippet: {
-
-    all: ['snippets/**/*.cson'],
-    javascript: ['snippets/javascript/**/*.cson'],
-    angular: ['snippets/angular/**/*.cson'],
-    "firebase-js": ['snippets/firebase-js/**/*.cson'],
-    markdown: ['snippets/markdown/**/*.cson']
-
-  }
+  // glob path for all snippets
+  all: 'snippets/**/*.cson',
 
 };
 
-
-function combinePaths(args) {
-  console.log(args);
+// convention for storing language/framework/library snippets
+function findPath(type) {
+  return 'snippets/{type}/*.cson'.replace('{type}', type);
 }
 
-//TODO: Better agrument name than snippet
 //
-// Task: snippet
-// Args: --snippet <language name>
-// Ex: gulp snippet --snippet javascript,angular,backbone
-// 
+// TODO:
+//  - Be able to build all paths
+// create an array of multiple paths if multiple paths are provided
+function combinePaths(types) {
+  var paths = [];
+  types.forEach(function pathFind(type) {
+    paths.push(findPath(type));
+  });
+  return paths;
+}
+
+
+//
+// Task: snippets
+// Args: --select <language/framework/library name>
+// Ex: gulp snippet --select javascript,angular,backbone
+//
 // Desc: The following gulp task uses yargs to take the
-// --snippet argument from the command line. The --snippet
+// --select argument from the command line. The --select
 // argument will specify what language to build the
 // files to.
-gulp.task('snippet', function() {
-  combinePaths(argv.snippet);
-  return gulp.src(paths.snippet[argv.snippet])
+gulp.task('snippets', function() {
+  var selection = argv.select;
+  return gulp.src(combinePaths(selection.split(',')))
     .pipe(concat(paths.name))
     .pipe(gulp.dest(paths.build));
 });
 
 
-gulp.task('default', ['snippet']);
+gulp.task('default', ['snippets']);
