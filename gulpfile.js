@@ -1,9 +1,10 @@
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
-    argv = require('yargs').argv;
+    argv = require('yargs').argv,
+    pathParser = require('./src/pathParser').pathParser;
 
 // path info for building
-var paths = {
+var config = {
 
   // name of built file
   name: 'snippets.cson',
@@ -19,51 +20,6 @@ var paths = {
 
 };
 
-// convention for storing language/framework/library snippets
-function findPath(type) {
-  return 'snippets/{type}/*.cson'.replace('{type}', type);
-}
-
-//
-// create an array of multiple paths if multiple paths are provided
-function combinePaths(types) {
-  var paths = [];
-  types.forEach(function pathFind(type) {
-    paths.push(findPath(type));
-  });
-  return paths;
-}
-
-//
-// Validate user's input selection
-// Ensures:
-//  - the --selection argument has been provided
-//  - the --selection has a value that is not the empty string
-function isValidSelection(selection) {
-  var isValid;
-  // is there a selection?
-  if (!selection) {
-    isValid = false;
-  } else if (selection === '') { // is the selection not the empty string?
-    isValid = false;
-  }
-  return isValid;
-}
-
-function parseSelection(selection) {
-  var selectedFiles;
-
-  // all of the snippets?
-  if (selection.toLowerCase() === 'all') {
-    selectedFiles = paths.all;
-  } else {
-    // combine multiple selections
-    selectedFiles = combinePaths(selection.split(','));
-  }
-
-  return selectedFiles;
-}
-
 //
 // Task: snippets
 // Args: --select <language/framework/library name>
@@ -74,24 +30,19 @@ function parseSelection(selection) {
 // argument will specify what language to build the
 // files to.
 gulp.task('snippets', function() {
-  var selection,
+  var parse,
+      selection,
       selectedFiles;
 
-  // get the selection from the command line
-  selection = argv.select
+  parser = pathParser(config);
 
-  // validate the selection
-  if (!isValidSelection(selection)) {
-    throw new Error(paths.noSelection);
-  }
-
-  // get the paths of the files to be combined
-  selectedFiles = parseSelection(selection);
+  selectedFiles = parser(argv.select);
+  console.log(selectedFiles);
 
   // build the files into build/snippets.cson
   return gulp.src(selectedFiles)
-    .pipe(concat(paths.name))
-    .pipe(gulp.dest(paths.build));
+    .pipe(concat(config.name))
+    .pipe(gulp.dest(config.build));
 });
 
 
