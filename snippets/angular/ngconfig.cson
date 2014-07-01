@@ -1,0 +1,5 @@
+# Angular Config
+'Angular Config':
+  'prefix': 'ngconfig'
+  'body': '
+.config([\'\$1\'\, function($1) { \n \n }])'

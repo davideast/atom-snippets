@@ -1,0 +1,6 @@
+# Angular Controller
+'Angular Controller':
+  'prefix': 'Angular Controller'
+  'description': ''
+  'body': '
+.controller([\'\$1\'\, function($1) { \n \n }])'

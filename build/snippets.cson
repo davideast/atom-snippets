@@ -1,9 +1,25 @@
-# Immediately Invoking Function Expression
-'IIFE':
-  'prefix': 'iife'
-  'body': '(function() { \n ${1} \n }());'
+# Angular Config
+'Angular Config':
+  'prefix': 'ngconfig'
+  'body': '
+.config([\'\$1\'\, function($1) { \n \n }])'
 
-# Immediately Invoking Function Expression
+# Angular Controller
+'Angular Controller':
+  'prefix': 'Angular Controller'
+  'description': ''
+  'body': '
+.controller([\'\$1\'\, function($1) { \n \n }])'
+
+# Markdown Header
+'Code':
+  'prefix': 'mcode'
+  'body': '
+```$1 \n
+  $2 \n
+```'
+
+# Module Pattern
 'Module Pattern':
   'prefix': 'modpat'
   'body': '
