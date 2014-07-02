@@ -4,7 +4,7 @@
   "description": "A collection of code snippets for the Atom Editor.",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "keywords": [
     "Atom",
@@ -15,6 +15,7 @@
   "devDependencies": {
     "gulp": "^3.8.5",
     "gulp-concat": "^2.2.0",
-    "yargs": "^1.2.6"
+    "yargs": "^1.2.6",
+    "gulp-mocha": "^0.4.1"
   }
 }
