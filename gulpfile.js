@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     argv = require('yargs').argv,
+    mocha = require('gulp-mocha'),
     pathParser = require('./src/pathParser').pathParser;
 
 // path info for building
@@ -44,6 +45,12 @@ gulp.task('snippets', function() {
     .pipe(concat(config.name))
     .pipe(gulp.dest(config.build));
 });
+
+gulp.task('test', function () {
+    gulp.src('test/test.js')
+        .pipe(mocha({reporter: 'nyan'}));
+});
+
 
 
 gulp.task('default', ['snippets']);
