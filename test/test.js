@@ -1,5 +1,6 @@
 var assert = require('assert'),
-    Paths = require('../src/Paths').Paths;
+    Paths = require('../src/Paths').Paths,
+    pathParser = require('../src/pathParser').pathParser;
 
 //// Test Cases
 
@@ -63,7 +64,31 @@ describe('Paths', function() {
 });
 
 describe('pathParser', function() {
-  
+  // path info for building
+  var config = {
+
+    // name of built file
+    name: 'snippets.cson',
+
+    // directory to build to
+    build: 'build/',
+
+    // glob path for all snippets
+    all: 'snippets/**/*.cson',
+
+    // error message for invalid selections
+    noSelection: 'Select the snippets to build. e.x.: gulp snippets --select javascript'
+
+  },
+  parser = pathParser(config);
+
+  it('It should return a function', function() {
+
+    console.log(parser('all'));
+    //assert.equal('function', typeof parser('all'));
+    assert.equal(true, true);
+  });
+
 });
 
 // pathParser
